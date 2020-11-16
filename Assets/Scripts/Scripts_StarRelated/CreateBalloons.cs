@@ -83,11 +83,6 @@ public class CreateBalloons : MonoBehaviour
 				Instantiate (StarPos [2], ObjectsPos [2], Quaternion.identity);
 				altura += 5;
 				GenPos ();
-			} else if (Seed >= 208 && Seed < 245) { //Caso o número seja maior ou igual a 255 irá criar um inimigo, como a variável aumenta logo de cara, não tem chance de criar 
-				//no mesmo lugar.
-				Instantiate (Inimigo, ObjectsPos [EnemyPos], Quaternion.identity);
-				altura += 5;
-				GenPos ();
 			} else {
 				Instantiate (GoldStar, ObjectsPos [_goldstarpos], Quaternion.identity);
 				altura += 5;

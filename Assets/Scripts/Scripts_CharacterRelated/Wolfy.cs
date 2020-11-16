@@ -6,8 +6,7 @@ using UnityEngine;
 
 public class Wolfy : MonoBehaviour
 {
-    public GameObject[] Backgrounds = new GameObject[3];
-    static int _actualscenario = 0;
+    
     #region Estados do jogo
     public enum EstadosJogabilidade
     {
@@ -22,26 +21,17 @@ public class Wolfy : MonoBehaviour
     #region Atributos do Personagem
 
 
-    /*[Range (0, 10)]
-	public float AirControl;*/
-    //Variável antiga, usada quando a movimentação do lobinho era por tilt.
-    Rigidbody2D WolfyRB;
-    //Pegar o Rigidbody do personagem.
-    public static Transform WolfyCharacter;
-    //Pegar o atributo Transform do personagem.
-    BoxCollider2D WolfyCollisor;
-    //Pegar o Colisor do objeto.
+    Rigidbody2D WolfyRB; //Pegar o Rigidbody do personagem.
+    Transform WolfyCharacter; //Pegar o atributo Transform do personagem.
+    BoxCollider2D WolfyCollisor; //Pegar o Colisor do objeto.
     LaunchWolfy WolfL;
-    Controles WolfyControl;
-    //Objetos da classe para serem chamados.
-    public static float altura;
-    //altura que o personagem alcança
-    public static Wolfy inst = null;
-    //instancia para usar as variaveis da classe
-    public Animator WolfyAnim;
-    //Animator do personagem.
-    public static int HighScore = 0;
-    //Highscore total
+    Controles WolfyControl;  //Objetos da classe para serem chamados.
+
+    public static float altura; //altura que o personagem alcança
+    public static Wolfy inst = null; //instancia para usar as variaveis da classe
+    public Animator WolfyAnim; //Animator do personagem.
+    public static int HighScore = 0; //Highscore total
+
     [SerializeField]
     float _speeddownbelow = -350f;
     [SerializeField]
@@ -75,62 +65,32 @@ public class Wolfy : MonoBehaviour
 
     #region Variáveis ligadas ao tempo de lançamento.
 
-    float Timetoplay;
-    //Segundos de preparação para o jogo começar.
-    float Seconds;
-    //Numeros de segundos a serem dimínuidos.
-    public static int Secondstoplay;
-    //Segundos a serem diminuidos.
-    public static float TimeLimit;
-    //LimitedeTempo
+    float Timetoplay; //Segundos de preparação para o jogo começar.
+    float Seconds; //Numeros de segundos a serem dimínuidos.
+    public static int Secondstoplay; //Segundos a serem diminuidos.
+    public static float TimeLimit; //LimitedeTempo
 
-    //Váriaveis estáticas não reiniciam junto com a fase, setar elas manualmente (no caso, essas já estão.
 
 
     #endregion
 
     #region Variaveis ligadas a força de lançamento.
 
-    //Objeto a ser criado na tela, que é o botão para lançar o lobinho.
-    public GameObject WingButton;
-
-
-    //Obsoleto
-    /*
-	//Varíaveis para armazenar os botões.
-	GameObject buttononscreen;
-	GameObject otherbuttononscreen;
-	GameObject thirdbuttononscreen;
-	GameObject fourthbuttononscreen;
-	//Variáveis para armazenar os colisores
-	CircleCollider2D buttoncollider;
-	CircleCollider2D otherbuttoncollider;
-	CircleCollider2D thirdbuttoncollider;
-	CircleCollider2D fourthbuttoncollider;
-	*/
-    float PoderdeForca;
-    //Força que vai ser lançado.
+    
+    public GameObject WingButton; //Objeto a ser criado na tela, que é o botão para lançar o lobinho.
+    float PoderdeForca; //Força que vai ser lançado.
     [Range(0, 10)]
-    public float IncrementodeForca;
-    //Força que é incrementado.
+    public float IncrementodeForca;  //Força que é incrementado.
+
 
     #endregion
 
     #region Variáveis ligadas ao controle no ar
-    //Direção que o lobinho irá ir.
-    float direction = 0;
-    //Velocidade do lobinho no ar.
+    
     [Range(1, 6)]
-    public float AirSpeed;
-    //Instância para armazenar os botões direcionais.
-    public GameObject DirButtons;
-    //Máscara da camada dos botões direcionais.
-    LayerMask DirectionalButton;
-    //Animator das asas.
+    public float AirSpeed; //Velocidade do lobinho no ar.
     float _sensibilitymove;
     float force;
-    public Animator RightWing;
-    public Animator LeftWing;
     #endregion
 
     #region Bools de auxilio de checagem de estado.
@@ -185,14 +145,14 @@ public class Wolfy : MonoBehaviour
 
         #endregion
         #region Inicialização de checagem com o chão.
-        DirectionalButton = LayerMask.GetMask("DirectionalButton");
+       
         Chao = LayerMask.GetMask("Chao");
         Button = LayerMask.GetMask("Button");
         //raiocolisao = WolfyCollisor.ra;
         boxsize = WolfyCollisor.size;
 
         #endregion
-        ChangeScenario();
+       
 
 
     }
@@ -234,7 +194,6 @@ public class Wolfy : MonoBehaviour
 
         #region Controle de botões que aparecem na tela.
         WingButton.SetActive(EstadoAtual == WolfyEstados.Preparacao);
-        DirButtons.SetActive(EstadoAtual == WolfyEstados.NoAr);
         #endregion
 
         #region >Troca de estados<		
@@ -266,58 +225,7 @@ public class Wolfy : MonoBehaviour
             #endregion
 
             #region Preparacao
-            case WolfyEstados.Preparacao: //Preparação do pulo
-
-                //Obsoleto
-                /*
-                #region Para criar os botões na tela.
-
-
-                #region button1
-                if (buttononscreen == null) { //Caso a variável que armazena botões esteja nula.
-                    //A variável vai armazenar a instancia do objeto na posição do lobinho.
-                    float RX = Random.Range (-2, 3);
-                    float RY = Random.Range (-1, 3);
-                    buttononscreen = Instantiate (button, new Vector3 (RX, RY, gameObject.transform.position.z), Quaternion.identity);
-                    //E a variável do colisor vai armazenar esse novo colisor.
-                    buttoncollider = buttononscreen.GetComponent<CircleCollider2D> ();
-                }
-                #endregion
-
-                #region button2
-                if (otherbuttononscreen == null) { //Caso a variável que armazena botões esteja nula, sempre que não existir nada dentro dela, é criado.
-                    //A variável vai armazenar a instancia do objeto na posição do lobinho.
-                    float RX = Random.Range (-2, 3);
-                    float RY = Random.Range (-1, 3);
-                    otherbuttononscreen = Instantiate (button, new Vector3 (RX, RY, gameObject.transform.position.z), Quaternion.identity);
-                    //E a variável do colisor vai armazenar esse novo colisor.
-                    otherbuttoncollider = otherbuttononscreen.GetComponent<CircleCollider2D> ();
-                }
-                #endregion
-
-                #region button3
-                if (thirdbuttononscreen == null) { //Caso a variável que armazena botões esteja nula.
-                    //A variável vai armazenar a instancia do objeto na posição do lobinho.
-                    float RX = Random.Range (-2, 3);
-                    float RY = Random.Range (-1, 3);
-                    thirdbuttononscreen = Instantiate (button, new Vector3 (RX, RY, gameObject.transform.position.z), Quaternion.identity);
-                    //E a variável do colisor vai armazenar esse novo colisor.
-                    thirdbuttoncollider = thirdbuttononscreen.GetComponent<CircleCollider2D> ();
-                }
-                #endregion
-
-                #region button4
-                if (fourthbuttononscreen == null) { //Caso a variável que armazena botões esteja nula.
-                    //A variável vai armazenar a instancia do objeto na posição do lobinho.
-                    float RX = Random.Range (-2, 3);
-                    float RY = Random.Range (-1, 3);
-                    fourthbuttononscreen = Instantiate (button, new Vector3 (RX, RY, gameObject.transform.position.z), Quaternion.identity);
-                    //E a variável do colisor vai armazenar esse novo colisor.
-                    fourthbuttoncollider = fourthbuttononscreen.GetComponent<CircleCollider2D> ();
-                }
-                #endregion
-                #endregion
-                */
+            case WolfyEstados.Preparacao: 
 
                 #region Evento de toque
 
@@ -401,16 +309,11 @@ public class Wolfy : MonoBehaviour
             #region Noar
             case WolfyEstados.NoAr: //Noar
 
-                //print (WolfyRB.velocity.y);
-                //print ("Is On Air"); //Só um print pra checar mesmo.
+               
                 _sensibilitymove = WolfyRB.velocity.y;
                 WolfyControl.ControlarWolfy(WolfyCharacter, AirSpeed); //Método para controlar o wolfy no ar.
                 Altura = transform.position.y; //A variavel da altura vai pegar o Y do lobinho.
                                                //print (Input.acceleration);
-                /*if (colisaocomchao) { //Se ele está no estado do ar, e chegou a ter colisão no chão, significa que precisa voltar pra preparação.
-                    //Não foi colocado o reset aqui, por precaução. Para que ele não seja lançado e automaticamente perceba que já estava no chão.
-                    EstadoAtual = WolfyEstados.Preparacao;
-                }*/
 
                 if (WolfyRB.velocity.y > 0 && WolfyRB.velocity.y < 2)
                 {
@@ -525,16 +428,6 @@ public class Wolfy : MonoBehaviour
 
     #endregion
 
-    void ChangeScenario()
-    {
-        if (_actualscenario == 3)
-            _actualscenario = 0;
-
-        Backgrounds[_actualscenario].SetActive(enabled);
-        _actualscenario++;
-
-
-    }
 
 
 }
@@ -555,17 +448,6 @@ class LaunchWolfy : Wolfy
 #region Controlar o lobinho no céu.
 class Controles : Wolfy
 {
-
-   
-    /*float _sensibilitymove;
-
-	public float SensibilityMove
-	{
-		get {return _sensibilitymove; }
-		set	{if (value < 1)
-				_sensibilitymove = 1;}
-	}
-	//A ideia é essa, arrumar, estou puto.*/
     public void ControlarWolfy(Transform wlf, float _airspeed)
     {
         JogoEstados = EstadosJogabilidade.Mouse;
@@ -596,100 +478,7 @@ class Controles : Wolfy
                 break;
 
         }
-
-        #region Obsoleto
-        #region Toque na tela e checagem se pressionou o botão
-
-        /*if (Input.touchCount > 0)
-        {
-            Touch _touchphase;
-            _touchphase = Input.GetTouch(0);
-            Ray touch = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
-            float touchclick = touch.origin.x;
-            Vector3 touchpoint = new Vector3(touch.origin.x, wlf.position.y, wlf.position.z);
-
-            if (_touchphase.phase == TouchPhase.Stationary)
-            {
-                wlf.position = Vector3.MoveTowards(wlf.position, touchpoint, _airspeed * Time.smoothDeltaTime);
-            }
-
-
-        }
-
-        if (Input.touchCount == 0)
-        {
-            Ray mouse = Camera.main.ScreenPointToRay(Input.mousePosition); //Converte a posição do mouse a um raio.
-            float mouseclick = mouse.origin.x; //Atrela a uma variável onde o usuário começou o clique
-            Vector3 mousepoint = new Vector3(mouseclick, wlf.position.y, wlf.position.z);
-            //atribui a um vetor de três dimensões a posição do mouse, sem modificar os outros eixos.
-
-            if (Input.GetMouseButton(0))
-
-            {
-
-                wlf.position = Vector3.MoveTowards
-                    (wlf.position, mousepoint, _airspeed * Time.smoothDeltaTime);
-                /*Caso a pessoa clique na tela, o animalzinho irá se movimentar 
-                 * até onde a pessoa deixou a posição do mouse
-                _airspeed é a velocidade em que fará isso
-
-            }
-
-
-        }*/
-
-
-
-
-
-        /*Ray mouse = Camera.main.ScreenPointToRay(Input.mousePosition); //Converte a posição do mouse a um raio.
-        float mouseclick = mouse.origin.x; //Atrela a uma variável onde o usuário começou o clique
-        mousepoint = new Vector3(mouseclick, wlf.position.y, wlf.position.z);
-        //atribui a um vetor de três dimensões a posição do mouse, sem modificar os outros eixos.
-
-        if (Input.GetMouseButton(0))
-
-        {
-
-            wlf.position = Vector3.MoveTowards
-                (wlf.position, mousepoint, _airspeed * Time.smoothDeltaTime);
-
-            /*Caso a pessoa clique na tela, o animalzinho irá se movimentar 
-             * até onde a pessoa deixou a posição do mouse
-            _airspeed é a velocidade em que fará isso
-
-        }*/
-
-
-        #endregion
-
-        #region (Obsoleto) Movimentação antiga 
-        /*Vector2 movement = wlfrb.velocity; //Armazena a velocidade do rigidbody
-        //int tilt = direction; //Armazena a informação do acelerometro no momento
-        //movement.x = (tilt * 32) * Time.deltaTime * 4; //A velocidade da variavel vai aumentar lentamente com o acréscimo do acelerometro
-        movement.x += direction * Time.deltaTime;
-        wlfrb.velocity = movement; //a velocidade do rigidbody vai ser a variavel incrementada.
-        //print (wlfrb.velocity.x);*/
-
-        /*if (sensibility >= 10)
-            force = 2;
-
-        else if (sensibility <= 9 && sensibility > 4)
-            force = 1.5f;
-
-        else 
-            force = 1;
-
-        //Caso a velocidade da altura estja muito grande, dividir ela por 10, o resultado será acrescido
-        //Na conta da movimentação dele.
-        if (sensibility >= 10)
-        force = sensibility / 10;
-
-        else
-            force = 1;*/
-
-        #endregion
-        #endregion
+  
 
     }
 
