@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System;
 
-public class Wolfy : MonoBehaviour
+public class Wolfy : Gamestatescontrol
 {
     
     #region Estados do jogo
@@ -164,14 +165,14 @@ public class Wolfy : MonoBehaviour
 
     void Update()
     {
-
+        
 
         #region Bools de controle da animação
         //bools de controle da animação, nelas estão atribuidas em qual modo o jogo está.
-        bool InicioJogo = EstadoAtual == WolfyEstados.InicioJogo;
-        bool Preparacao = EstadoAtual == WolfyEstados.Preparacao;
-        bool Lancamento = EstadoAtual == WolfyEstados.Lancamento;
-        bool Noar = EstadoAtual == WolfyEstados.NoAr;
+        bool InicioJogo = ActualGameState == GameState.InstructionPhase;
+        bool Preparacao = ActualGameState == GameState.TouchPhase;
+        bool Lancamento = ActualGameState == GameState.LaunchPhase;
+        bool Noar = ActualGameState == GameState.BonusPhase;
 
         #endregion
 
@@ -193,39 +194,16 @@ public class Wolfy : MonoBehaviour
         #endregion
 
         #region Controle de botões que aparecem na tela.
-        WingButton.SetActive(EstadoAtual == WolfyEstados.Preparacao);
+        WingButton.SetActive(ActualGameState == GameState.TouchPhase);
         #endregion
 
         #region >Troca de estados<		
-        switch (EstadoAtual)
+        switch (ActualGameState)
         {
 
-            #region Inicio do Jogo
-            //Estado do inicio do jogo
-            case WolfyEstados.InicioJogo:
-
-                //Existe um tempo que o jogador não pode fazer os comandos
-
-
-                //Timetoplay -= 1f * Time.deltaTime; //Diminui o tempo
-                Timetoplay = Mathf.Clamp(Timetoplay - 1f * Time.deltaTime, 0, 3); //Contagem para o jogo começar
-                CollisionBalloons.BalloonCount = 0; //Resetar a contagem dos balões
-
-                if (Timetoplay <= 0)
-                {
-                    Altura = 0; //Resetar a altura que o personagem já foi
-                    Timetoplay = 3; //reset do tempo que o jogo inicia.
-                    PoderdeForca = 0; //força volta a 0 após o tempo acabar.
-                    TimeLimit = 6f; //o limite de tempo para o próximo estado é estabelecido
-                    EstadoAtual = WolfyEstados.Preparacao; //entra no próximo estado
-
-                }
-                break;
-
-            #endregion
 
             #region Preparacao
-            case WolfyEstados.Preparacao: 
+            /*case GameState.TouchPhase: 
 
                 #region Evento de toque
 
@@ -284,30 +262,26 @@ public class Wolfy : MonoBehaviour
                 TimeLimit = Mathf.Clamp(TimeLimit - 1f * Time.deltaTime, 0, 6);
                 Secondstoplay = Mathf.RoundToInt(TimeLimit); //Converter para mostrar somente o número inteiro
 
-                if (TimeLimit <= 0 && PoderdeForca > 0) //Caso o limite de tempo fique abaixo de 0, ele vai para o próximo estado.
-                    EstadoAtual = WolfyEstados.Lancamento;
-                else if (PoderdeForca <= 0 && TimeLimit <= 0)
-                {
-                    EstadoAtual = WolfyEstados.InicioJogo;
-                }
+               
+                
                 #endregion
 
                 break;
             #endregion
 
             #region Lancamento
-            case WolfyEstados.Lancamento: //Momento de lançamento
+            case GameState.LaunchPhase: //Momento de lançamento
 
                 WolfyAnim.SetTrigger("Jumping"); //Chamar a animação de pulo que vai desencadear outras animações.
                 WolfL.Launch(WolfyRB, PoderdeForca); //Chamar a classe pra ser lançada.
                                                      //WolfyAnim.SetTrigger ("ToFly"); //Chamar a animação de voo.
-                EstadoAtual = WolfyEstados.NoAr; //Ir para o estado em que o personagem está no ar.
+                //ActualGameState = GameState.BonusPhase; //Ir para o estado em que o personagem está no ar.
 
-                break;
+                break;*/
             #endregion
 
             #region Noar
-            case WolfyEstados.NoAr: //Noar
+            case GameState.BonusPhase: //Noar
 
                
                 _sensibilitymove = WolfyRB.velocity.y;
@@ -335,7 +309,7 @@ public class Wolfy : MonoBehaviour
                     if (tohit.distance < 1.8f && colisaocomchao)
                     {
 
-                        EstadoAtual = WolfyEstados.GanhouJogo;
+                        ActualGameState = GameState.ResultsPhase;
 
                         Debug.Log("Win Game!");
                     }
@@ -347,23 +321,9 @@ public class Wolfy : MonoBehaviour
                 break;
             #endregion
 
-            #region FimJogo
-            case WolfyEstados.FimJogo: //Estado para o jogador perder.
-                WolfyAnim.SetTrigger("Lose"); //Em caso de ter encostado em um inimigo
-                                              //Ele trava no céu.
-                Vector2 WolfyVel = WolfyRB.velocity;
-                WolfyVel.y = 0;
-                WolfyVel.x = 0;
-                WolfyRB.velocity = WolfyVel; //A velocidade de seu rigidbody é retirada.
-
-                SceneManager.LoadScene("LossAlpha", LoadSceneMode.Additive);
-                EstadoAtual = WolfyEstados.Estadodeespera;
-                break;
-            #endregion
-
             #region GanhouJogo
             //Checar se ganhou o jogo.
-            case WolfyEstados.GanhouJogo:
+            case GameState.ResultsPhase:
                 WolfyAnim.SetTrigger("Win"); //Animação de vitória
                                              //Reiniciar o jogo
                 /*if (Input.GetKeyDown(KeyCode.S))
@@ -379,18 +339,10 @@ public class Wolfy : MonoBehaviour
                     PlayerPrefs.SetInt(HighScoreDisplay.ScoreKey, HighScoreDisplay.HighScore);
                 }
 
-                SceneManager.LoadScene("MenuAlpha", LoadSceneMode.Additive);
-                EstadoAtual = WolfyEstados.Estadodeespera;
+                //SceneManager.LoadScene("MenuAlpha", LoadSceneMode.Additive);
+               
                 break;
             #endregion
-
-            #region EstadoEspera
-
-            case WolfyEstados.Estadodeespera:
-                {
-                    //Usado apenas para que o menu não fique sendo criado infinitamente.
-                    break;
-                }
 
             default:
                 break;
@@ -398,10 +350,10 @@ public class Wolfy : MonoBehaviour
         }
         #endregion
 
-        #endregion
-
 
     }
+
+   
 
     #region Incrementar altura
     public void IncrementHeight()
