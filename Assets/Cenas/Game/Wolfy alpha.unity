@@ -249,22 +249,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1239298314}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &156115567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 156115565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7906ba6d4ef0b974fb109066ffab0489, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Wing: {fileID: 1239298318}
-  Starbutton: {fileID: 1502574925}
-  CircleButton: {fileID: 1239298317}
-  Torque: -7.9
 --- !u!58 &156115568
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1142,7 +1126,6 @@ GameObject:
   - component: {fileID: 1088212421}
   - component: {fileID: 1088212420}
   - component: {fileID: 1088212419}
-  - component: {fileID: 1088212423}
   - component: {fileID: 1088212424}
   m_Layer: 11
   m_Name: Main Camera
@@ -1226,24 +1209,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1088212423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1088212418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 416f1f7b3f136e6498065ecc22683aac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MainCamera: {fileID: 0}
-  Wolfy: {fileID: 0}
-  WolfyRB: {fileID: 0}
-  Colisorpos: 3.5
-  AlturaCamera: 4.18
-  CameraZoom: -6.19
 --- !u!114 &1088212424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1528,27 +1493,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1239298314}
   m_PrefabAsset: {fileID: 0}
---- !u!50 &1502574925
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1502574922}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 3
 --- !u!58 &1502574926
 CircleCollider2D:
   m_ObjectHideFlags: 0
