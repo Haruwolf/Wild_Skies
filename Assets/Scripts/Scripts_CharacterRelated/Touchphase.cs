@@ -5,61 +5,48 @@ using UnityEngine;
 public class Touchphase : Gamestatescontrol
 {
     public GameObject TouchButton; //botao de toque
-    private CircleCollider2D _touchCollider;
-    private int _buttonamount;
+    private float _margin; //margem para o botão não sair da tela
+    
+    private int _buttonamount; //quantos botões irá aparecer
     private float _secondsround;
     private int _roundcount;
-    private bool _touchphasestarted = false;
+    private bool _touchphasestarted = false; //se a fase de toque começu
+
+    public GameObject SpawnArea; //Area de spawn dos botões, o tamanho tem que ser igual a resolução da camera (9:18)
+    private Bounds _spawnareabounds; //limites da area de spawn
+    private Vector2 _totalSpawnareasize; //verdadeira area de spawn considerando os limites de onde pode ser spawnado o objeto
+
+    public float Border;
     
     void Start()
     {
-        _touchCollider = TouchButton.GetComponent<CircleCollider2D>();
-        _buttonamount = 8;
+        _spawnareabounds = SpawnArea.GetComponent<BoxCollider2D>().bounds; //Pega os limites da area de spawn
+        _margin = TouchButton.GetComponent<CircleCollider2D>().radius; //Pega o raio do botão
+        _totalSpawnareasize = _spawnareabounds.extents - (Vector3.one * _margin); //Calcula a area total de onde o objeto vai ser spawnado. Limite da tela - raio do botão
+        _buttonamount = 250; //Quantos botões irá começar
+
     }
     void Update()
     {
         //Caso esteja na fase de toque
-        if (ActualGameState == GameState.TouchPhase && !_touchphasestarted)
+        if (ActualGameState == GameState.TouchPhase && !_touchphasestarted) 
         {
-            _touchphasestarted = true;
-            //variaveis de ponto de spawn
-            CreateButtons();
-
-
-           
-
-            //Próximo estado.
-            //ActualGameState = GameState.LaunchPhase;
-
-
-
+            _touchphasestarted = true;//Caso esteja na fase de toque
+            CreateButtons(); //Começa a criar os botões
         }
     }
-
     public void CreateButtons()
     {
-        Vector2 sbounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        print(sbounds.x);
-        print(sbounds.y);
-
+        
         for (int b = _buttonamount;_buttonamount > 0;_buttonamount-- )
         {
-            float _spawnpointX;
-            float _spawnpointY;
 
-            //Atribuições pegando a tela em si,, utilizar também o tamanho do botão
-            _spawnpointX = Random.Range(Camera.main.ScreenToWorldPoint(new Vector2(0 + sbounds.x + _touchCollider.radius, 0)).x,
-                Camera.main.ScreenToWorldPoint(new Vector2(Screen.width - sbounds.x, 0)).x);
+            //A posição do spawn será o limite minimo da area total do spawn com o limite máximo
+            Vector2 _spawnpos = new Vector2 (Random.Range(-_totalSpawnareasize.x, _totalSpawnareasize.x),
+                Random.Range(-_totalSpawnareasize.y, _totalSpawnareasize.y));
 
-            _spawnpointY = Random.Range(Camera.main.ScreenToWorldPoint(new Vector2(0, 0 + sbounds.y + _touchCollider.radius)).y,
-                Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height - sbounds.y )).y);
-
-            //posição que será spawnado
-            Vector2 _spawnpos = new Vector2(_spawnpointX, _spawnpointY);
-
-            Instantiate(TouchButton, _spawnpos, Quaternion.identity);
+            Instantiate(TouchButton, _spawnpos, Quaternion.identity); //spawna o objeto
         }
-        //Instancia um unico botão.
         
     }
 }
