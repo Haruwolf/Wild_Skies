@@ -22,16 +22,16 @@ public class UIRecords : MonoBehaviour {
 	void Update () {
 
 		//bools que armazenam os valores dos estados que o personagem está.
-		bool Preparacao = Wolfy.inst.EstadoAtual == Wolfy.WolfyEstados.Preparacao;
-		bool Noar = Wolfy.inst.EstadoAtual == Wolfy.WolfyEstados.NoAr;
+		//bool Preparacao = Wolfy.inst.EstadoAtual == Wolfy.WolfyEstados.Preparacao;
+		//bool Noar = Wolfy.inst.EstadoAtual == Wolfy.WolfyEstados.NoAr;
 
 		//Pegar o valor de variaveis, precisam estar em string.
-		Baloes.text = CollisionBalloons.BalloonCount.ToString ();
+		/*Baloes.text = CollisionBalloons.BalloonCount.ToString ();
 		Altura.text = Wolfy.Altura.ToString ();
 		Seconds.gameObject.SetActive (Preparacao);
 		Toquenatela.gameObject.SetActive (Preparacao);
 		Vireatela.gameObject.SetActive (Noar);
-		Seconds.text = Wolfy.Secondstoplay.ToString ();
+		Seconds.text = Wolfy.Secondstoplay.ToString ();*/
 
 
 

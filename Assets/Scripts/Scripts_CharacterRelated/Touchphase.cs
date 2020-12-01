@@ -61,8 +61,8 @@ public class Touchphase : Gamestatescontrol
             _secondsmissing = Mathf.Clamp(_secondsmissing -1 * Time.deltaTime, 0, _secondsround);
             if (_secondsmissing <= 0)
             {
-                print(_roundcount);
-                print(_buttonsclicked);
+                _totalrounds = _roundcount;
+                _totalbuttons = _buttonsclicked;
                 ActualGameState = GameState.LaunchPhase;
                 _touchphasestarted = false;
             }
@@ -71,10 +71,9 @@ public class Touchphase : Gamestatescontrol
     }
     public void CreateButtons()
     {
-        Vector2 _newsize = new Vector2(1, 1);
-        float sizereduction = 1;
-        
 
+        int zorder = 0;
+        
         for (int b = _buttonamount;b > 0;b-- )
         {
 
@@ -82,15 +81,12 @@ public class Touchphase : Gamestatescontrol
             Vector2 _spawnpos = new Vector2 (Random.Range(-_totalSpawnareasize.x, _totalSpawnareasize.x),
                 Random.Range(-_totalSpawnareasize.y, _totalSpawnareasize.y));
 
-            
-
             GameObject newInstance = Instantiate(TouchButton, _spawnpos, Quaternion.identity); //spawna o objeto
-            newInstance.transform.localScale = newInstance.transform.localScale * _newsize;
-            _newsize = _newsize * sizereduction;
-            sizereduction -= 0.05f;
             ButtonsList.Add(newInstance);
-            
-         
+            zorder -= 1;
+            newInstance.GetComponentInChildren<SpriteRenderer>().sortingOrder = zorder;
+            print(zorder);
+
         }
 
         

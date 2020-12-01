@@ -13,6 +13,16 @@ public class ButtonCode : MonoBehaviour
         _scriptattached = GameObject.FindGameObjectWithTag("MainCamera");
         touch = _scriptattached.GetComponent<Touchphase>();
         
+
+
+    }
+
+    private void FixedUpdate()
+    {
+        touch.ButtonsList[0].transform.Rotate(0, 0, 25.0f * Time.fixedDeltaTime * 2);
+
+
+
     }
 
     private void OnMouseDown()
@@ -28,8 +38,8 @@ public class ButtonCode : MonoBehaviour
             {
                 touch._buttonsclicked += 1;
                 touch.ButtonsStatic -= 1; 
-                print(touch.ButtonsList.IndexOf(gameObject));
-                //touch.ButtonsList.Remove(gameObject);
+                //print(touch.ButtonsList.IndexOf(gameObject));
+                touch.ButtonsList.Remove(gameObject);
                 Destroy(gameObject);
             }
             

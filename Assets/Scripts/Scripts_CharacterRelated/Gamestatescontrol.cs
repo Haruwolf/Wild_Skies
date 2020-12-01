@@ -19,6 +19,9 @@ public class Gamestatescontrol : MonoBehaviour
 
     static protected GameState ActualGameState; //Estado atual do jogo
     //static protected faz com que a variavel seja mudavel para outras classes.
+
+    static protected int _totalrounds;
+    static protected int _totalbuttons;
     
     void Awake()
     {

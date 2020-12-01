@@ -15,7 +15,6 @@ public class CreateBalloons : MonoBehaviour
 	//Instanciar os balões aleatóriamente. FEITO
 
 	public GameObject GoldStar;
-	public GameObject Inimigo;
 	public GameObject[] StarPos = new GameObject[3];
 	//Armazenar os objetos que vão criar a estrela.
 	Vector3[] ObjectsPos = new Vector3[3];
@@ -67,7 +66,6 @@ public class CreateBalloons : MonoBehaviour
 
 			//Número aleatório para definir que estrela será criada.
 			Seed = Random.Range (0, 255);
-			EnemyPos = Random.Range (0, 3);
 			_goldstarpos = Random.Range (0, 3);
 
 			//GenPos chama o método que é responsável por ir aumentando a distancia do balloon generator que é o que cria as estrelas.

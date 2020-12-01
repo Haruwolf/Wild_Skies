@@ -34,8 +34,6 @@ public class Wolfy : Gamestatescontrol
     public static int HighScore = 0; //Highscore total
 
     [SerializeField]
-    float _speeddownbelow = -350f;
-    [SerializeField]
     float _pumpup = 0.05f;
 
 
@@ -43,31 +41,9 @@ public class Wolfy : Gamestatescontrol
 
     #endregion
 
-    #region Estados do personagem
-
-    public enum WolfyEstados
-    {
-        InicioJogo,
-        Preparacao,
-        Lancamento,
-        NoAr,
-        FimJogo,
-        GanhouJogo,
-        Estadodeespera
-    }
-
-    ;
-
-    public WolfyEstados EstadoAtual;
-
-    //Estados do personagem e variável para armazenar eles.
-
-    #endregion
-
     #region Variáveis ligadas ao tempo de lançamento.
 
-    float Timetoplay; //Segundos de preparação para o jogo começar.
-    float Seconds; //Numeros de segundos a serem dimínuidos.
+    
     public static int Secondstoplay; //Segundos a serem diminuidos.
     public static float TimeLimit; //LimitedeTempo
 
@@ -75,29 +51,11 @@ public class Wolfy : Gamestatescontrol
 
     #endregion
 
-    #region Variaveis ligadas a força de lançamento.
-
-    
-    public GameObject WingButton; //Objeto a ser criado na tela, que é o botão para lançar o lobinho.
-    float PoderdeForca; //Força que vai ser lançado.
-    [Range(0, 10)]
-    public float IncrementodeForca;  //Força que é incrementado.
-
-
-    #endregion
-
     #region Variáveis ligadas ao controle no ar
     
     [Range(1, 6)]
-    public float AirSpeed; //Velocidade do lobinho no ar.
-    float _sensibilitymove;
+    public float AirSpeed; //Velocidade do lobinho no ar
     float force;
-    #endregion
-
-    #region Bools de auxilio de checagem de estado.
-
-    bool colisaocomchao;
-
     #endregion
 
     #region Para checagem com o chão.
@@ -127,24 +85,17 @@ public class Wolfy : Gamestatescontrol
     // Use this for initialization
     void Start()
     {
-        //JogoEstados = EstadosJogabilidade.Mouse;
-        EstadoAtual = WolfyEstados.InicioJogo; //O jogo começa no estado "Inicio Jogo".
         #region Inicialização dos atributos
         WolfyCollisor = GetComponent<BoxCollider2D>();
         WolfyCharacter = GetComponent<Transform>();
         WolfyRB = GetComponent<Rigidbody2D>(); //Pegar o Rigidbody do personagem
         WolfL = new LaunchWolfy(); //declaração de objeto.
-        WolfyControl = new Controles(); //declaração do objeto.
-        WingButton.SetActive(false);
+        WolfyControl = new Controles(); //declaração do objetos
 
 
 
         #endregion
-        #region Inicialização das variáveis de tempo
-        Seconds = 1; //Segundos a serem descontados.
-        Timetoplay = 3; //Tempo para o jogo iniciar.
-
-        #endregion
+ 
         #region Inicialização de checagem com o chão.
        
         Chao = LayerMask.GetMask("Chao");
@@ -187,14 +138,10 @@ public class Wolfy : Gamestatescontrol
         #region Pegar posição do personagem e se ele está no chão
         ballpos = new Vector2(WolfyCharacter.transform.position.x, WolfyCharacter.transform.position.y);
         //colisaocomchao = Physics2D.OverlapCircle (ballpos, raiocolisao, Chao);
-        colisaocomchao = Physics2D.OverlapBox(ballpos, boxsize, 0, Chao);
+        
         //Raycast funciona assim:
         //ELe cria um raio e armazena na variavel o que o raio atingiu.
 
-        #endregion
-
-        #region Controle de botões que aparecem na tela.
-        WingButton.SetActive(ActualGameState == GameState.TouchPhase);
         #endregion
 
         #region >Troca de estados<		
@@ -208,36 +155,16 @@ public class Wolfy : Gamestatescontrol
             case GameState.BonusPhase: //Noar
 
                
-                _sensibilitymove = WolfyRB.velocity.y;
+               
                 WolfyControl.ControlarWolfy(WolfyCharacter, AirSpeed); //Método para controlar o wolfy no ar.
                 Altura = transform.position.y; //A variavel da altura vai pegar o Y do lobinho.
                                                //print (Input.acceleration);
 
-                if (WolfyRB.velocity.y > 0 && WolfyRB.velocity.y < 2)
-                {
-                    Vector2 _wvel = WolfyRB.velocity;
-                    _wvel.y = -0.1f;
-                    WolfyRB.velocity = _wvel;
-                }
+                
 
-                if (WolfyRB.velocity.y < 0) //Casp p érspmage, esteja caindo.
-                {
-                    //Fzer ele cair mais rapido quando a velocidade do Y chega a 0;
-                    Vector2 wlfy = WolfyRB.velocity;
-                    wlfy.y = _speeddownbelow * Time.fixedDeltaTime;
-                    WolfyRB.velocity = wlfy;
-                    RaycastHit2D tohit = Physics2D.Raycast(ballpos, -Vector2.up, Mathf.Infinity, Chao);
-                    //Variavel para armazenar o que atingiu/Enviar o raio na posição do personagem, pra baixo, eternamente, e só vai colidir com o chão)
-                    //Debug.Log(tohit.distance);
-                    //Caso esteja a uma distancia de menos 1.8f e colida com o chão.
-                    if (tohit.distance < 1.8f && colisaocomchao)
-                    {
+                /*ActualGameState = GameState.ResultsPhase;
 
-                        ActualGameState = GameState.ResultsPhase;
-
-                        Debug.Log("Win Game!");
-                    }
-                }
+                Debug.Log("Win Game!");*/
 
 
 
