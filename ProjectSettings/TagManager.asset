@@ -5,18 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Principal
-  - BalaoV
-  - BalaoG
-  - BalaoY
-  - Balloon
-  - Bomb
-  - Button
-  - LeftWing
-  - RightWing
-  - Red
-  - Green
-  - Blue
+  - UI
   - Gold
+  - Master
+  - Canvas
   layers:
   - Default
   - TransparentFX
