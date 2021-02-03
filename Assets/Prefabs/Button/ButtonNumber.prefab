@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8441713190896238558}
   - component: {fileID: 3598775010607035712}
   - component: {fileID: 6325199263914323358}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ButtonNumber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,11 +99,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '0
-
-'
+  m_text: 8
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ec87d5ae12c0cdf428e8b9417703b3a6, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -167,7 +165,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_renderer: {fileID: 3598775010607035712}
   m_maskType: 0
   _SortingLayerID: 0

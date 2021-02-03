@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class ScriptsButton : MonoBehaviour
+public class ScriptsButton : Gamestatescontrol
 {
     public void RestartGame() //Para reiniciar o jogo
     {
@@ -14,5 +14,12 @@ public class ScriptsButton : MonoBehaviour
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
         Resources.UnloadUnusedAssets();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+    }
+
+    public void StartGame() //Para iniciar o jogo
+    {
+        //print("testerein");
+
+        ActualGameState = GameState.TouchPhase;
     }
 }

@@ -6,14 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Cenas/Menus/MenuPrincipalAlpha.unity
-    guid: 199244f014bf9ea47b799a9d9470166a
-  - enabled: 1
     path: Assets/Cenas/Game/Wolfy alpha.unity
     guid: 78e6a4cc5d394ce4fb1118d83a5b30e3
-  - enabled: 1
-    path: Assets/Cenas/Menus/MenuAlpha.unity
-    guid: 3da8d8ec1589bc741a2a00062d31a6fd
-  - enabled: 1
-    path: Assets/Cenas/Menus/LossAlpha.unity
-    guid: 6a714f4cb23bf8944934bda8cf953ab0
+  m_configObjects: {}

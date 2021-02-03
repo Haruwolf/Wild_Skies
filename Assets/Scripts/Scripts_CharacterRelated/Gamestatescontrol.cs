@@ -26,13 +26,18 @@ public class Gamestatescontrol : MonoBehaviour
     static protected int _totalrounds; //total de rounds que a touchphase fez
     static protected int _totalbuttons; //total de botões que foram clicados na touchphase
     static protected float _totalareaspawnx; //area total do spawn que a touchphase tem
+    static protected float _totalareaspawny; //area total do spawn que a touchphase tem
     static protected Rigidbody2D _characterphysics; //fisíca do personagem para que a launchphase e touchphase acessem
-    
+    static protected Transform _character;
+
+
+    static protected int _results;
     static protected int _alturafinal; //recorde de altura
+    static protected int _starcount;
 
     void Awake()
     {
-        ActualGameState = GameState.InstructionPhase; //Inicio do jogo
+        _character = GameObject.FindGameObjectWithTag("Principal").GetComponent<Transform>();
         JogoEstados = EstadosJogabilidade.Mouse; //Começa no mouse
         _characterphysics = GameObject.FindGameObjectWithTag("Principal").GetComponent<Rigidbody2D>(); //Pega o rigidbody do personagem principal
     }
@@ -40,17 +45,19 @@ public class Gamestatescontrol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        
         switch (ActualGameState) //Caso precise ser feito algo em cada fase, especificamente
         {
             case GameState.InstructionPhase:
                 {
-                    ActualGameState = GameState.TouchPhase; //Ir para o próximo, será modificado
+                    
                     break;
                 }
 
             case GameState.TouchPhase:
                 {
-                    
+
                     break;
                 }
 
@@ -59,9 +66,17 @@ public class Gamestatescontrol : MonoBehaviour
                     break;
                 }
 
+            case GameState.ResultsPhase:
+                {
+                    
+                    break;
+                }
+
             default:
                 break;
 
         }
     }
+
+   
 }

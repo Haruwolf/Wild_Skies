@@ -6,9 +6,9 @@ TagManager:
   tags:
   - Principal
   - UI
-  - Gold
   - Master
   - Canvas
+  - Star
   layers:
   - Default
   - TransparentFX
@@ -23,8 +23,8 @@ TagManager:
   - DirectionalButton
   - Background
   - Sun
-  - 
-  - 
+  - Player
+  - Grey
   - 
   - 
   - 

@@ -28,8 +28,11 @@ public class Launchphase : Gamestatescontrol
 
     void Launch(int btns, int rnds)
     {
-        int _forceresults = btns * rnds; //A força a ser projetada será o total de botões vezes o total de rounds
-        _characterphysics.AddForce(new Vector2(0, _forceresults), ForceMode2D.Impulse); //lançará o personagem, talvez algum modificador seja necessário
+        int _forceresults = (btns * rnds)/2; //A força a ser projetada será o total de botões vezes o total de rounds
+        _results = _forceresults;
+        //_characterphysics.AddForce(new Vector2(0, _forceresults), ForceMode2D.Force); //lançará o personagem, talvez algum modificador seja necessário
+        //_characterphysics.velocity = Vector3.Normalize(_characterphysics.velocity) * _forceresults;
+
         ActualGameState = GameState.BonusPhase; //Fala pro gsc pra ir pra próxima fase.
     }
 

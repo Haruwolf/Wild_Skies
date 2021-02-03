@@ -19,6 +19,7 @@ public class Touchphase : Gamestatescontrol
 
     private Bounds _spawnareabounds; //limites da area de spawn
     private Vector2 _totalSpawnareasize; //verdadeira area de spawn considerando os limites de onde pode ser spawnado o objeto
+    public Vector3 Border;
 
     public List<GameObject> ButtonsList = new List<GameObject>(); //Armazenar todos os botões criados
     public int ButtonsStatic; //Variavel que controla quantos botões atualmente estão na tela
@@ -34,14 +35,14 @@ public class Touchphase : Gamestatescontrol
         _secondsmissing = _secondsround; //o valor acima é passado para secondsmissing para ser reduzido durante o jogo
         _spawnareabounds = SpawnArea.GetComponent<BoxCollider2D>().bounds; //Pega os limites da area de spawn
         _margin = TouchButton.GetComponent<CircleCollider2D>().radius; //Pega o raio do botão
-        _totalSpawnareasize = _spawnareabounds.extents - (Vector3.one * _margin); //Calcula a area total de onde o objeto vai ser spawnado. Limite da tela - raio do botão
+        _totalSpawnareasize = _spawnareabounds.extents - (Vector3.one * _margin + Border); //Calcula a area total de onde o objeto vai ser spawnado. Limite da tela - raio do botão
         _buttonamount = Mathf.Clamp(8, 8, 14); //Quantos botões irá começar
         ButtonsStatic = _buttonamount; //Pega a quantidade de botões que irá começar e coloca numa variavel para ser mudada durante o jogo
 
     }
     void Update()
     {
-        
+        Seconds.enabled = ActualGameState == GameState.TouchPhase;
         //Caso esteja na fase de toque
         if (ActualGameState == GameState.TouchPhase && !_touchphasestarted) 
         {
@@ -61,8 +62,11 @@ public class Touchphase : Gamestatescontrol
 
         if (ActualGameState == GameState.TouchPhase) //Enquanto estiver na touchphase
         {
-            Seconds.text = _secondsmissing.ToString(); //passa para o texto a ser exibido qntos segundos faltam
+             
+
             _secondsmissing = Mathf.Clamp(_secondsmissing -1 * Time.deltaTime, 0, _secondsround); //diminui a quantidade de segundos
+            int _sc = (int)_secondsmissing;
+            Seconds.text = _sc.ToString(); //passa para o texto a ser exibido qntos segundos faltam
 
             Ray mousepos = Camera.main.ScreenPointToRay(Input.mousePosition);
             //print("mousepos: " + mousepos);
@@ -76,7 +80,7 @@ public class Touchphase : Gamestatescontrol
             //ButtonsList[0].transform.localScale = new Vector3(2, 2, 2);
             if (Input.GetMouseButtonDown(0))
             {
-                print("hit " + ButtonsList.IndexOf(hit.transform.gameObject));
+                
                 if (hit.transform == ButtonsList[0].transform) //Se o objeto que possui esse script possui o índice 0 na lista
                 {
                     
@@ -98,6 +102,7 @@ public class Touchphase : Gamestatescontrol
                 _totalrounds = _roundcount; //manda para o gsc a quantidade de rounds que foi realizada
                 _totalbuttons = _buttonsclicked; //manda a quantidade de botões clicados
                 _totalareaspawnx = _totalSpawnareasize.x; //o tamanho total da tela
+                _totalareaspawny = _totalSpawnareasize.y;
                 foreach (GameObject i in ButtonsList) //varre a lista
                 {
                     int index = ButtonsList.IndexOf(i);

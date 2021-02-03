@@ -11,6 +11,10 @@ public class Bonusphase : Gamestatescontrol
     public static int altura; //altura que o personagem alcança
     public static Bonusphase inst = null; //instancia para usar as variaveis da classe
     public float AirSpeed; //Velocidade do lobinho no ar
+    private Vector2 _initialpos;
+    Vector2 _endpos;
+    public float Velocidade;
+    public float Segundos;
 
     Transform _character; //Pegar o atributo Transform do personagem.
     Controles _control;  //Objetos da classe para serem chamados.
@@ -27,19 +31,36 @@ public class Bonusphase : Gamestatescontrol
     void Start()
     {
         _character = GameObject.FindGameObjectWithTag("Principal").GetComponent<Transform>(); //Pega o transform para o personagem se mover
+        
+        _endpos = new Vector2(_character.position.x, _results);
         _control = new Controles(); //declaração do objetos
+
+
 
     }
 
+   
     void Update()
     {
         if (ActualGameState == GameState.BonusPhase) //Caso o jogo esteja na bonusphase
         {
+
+            Segundos = Velocidade / _results;
+            if (float.IsPositiveInfinity(Segundos))
+            {
+                Segundos = float.MaxValue;
+                print(Segundos);
+            }
+
+           
+
             _control.Control(_character, AirSpeed); //Método para controlar o wolfy no ar. passa o transform e a velocidade de movimentação
             Altura = Mathf.RoundToInt(_character.transform.position.y); //A variavel da altura vai pegar o Y do lobinho.
+            //print(Altura);
 
-            if(_characterphysics.velocity.y <=0) //Caso o rigidbody do personagem tenha uma velocidade negativa (caindo) ou nula
+            if(_character.transform.position.y >= _results - 2) //Caso o rigidbody do personagem tenha uma velocidade negativa (caindo) ou nula
             {
+                
                 _characterphysics.constraints = RigidbodyConstraints2D.FreezePosition; //Freeza completamente o rb
                 _alturafinal = Altura; //Passa para o gsc a altura alcançada
                 ActualGameState = GameState.ResultsPhase; //Vai para a resultsphase
@@ -48,6 +69,16 @@ public class Bonusphase : Gamestatescontrol
                                            
         }
 
+    }
+
+    void FixedUpdate()
+    {
+        if (ActualGameState == GameState.BonusPhase) //Caso o jogo esteja na bonusphase
+        {
+
+            if (_character.transform.position.y < _results)
+                _character.transform.position += new Vector3(0, 0.1f * Velocidade * Time.deltaTime);
+        }
     }
 
     public static int Altura
